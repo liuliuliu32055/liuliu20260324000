@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 
 /**
  * 笔记相关的API路由
@@ -12,7 +12,7 @@ import { createServerClient } from '@/lib/supabase/server';
 // POST - 创建笔记
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createServerClient();
+    const supabase = await createClient();
     
     // 验证用户是否登录
     const { data: { user } } = await supabase.auth.getUser();
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 // GET - 获取文档的笔记列表
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createServerClient();
+    const supabase = await createClient();
     
     // 验证用户是否登录
     const { data: { user } } = await supabase.auth.getUser();
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
 // DELETE - 删除笔记
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await createServerClient();
+    const supabase = await createClient();
     
     // 验证用户是否登录
     const { data: { user } } = await supabase.auth.getUser();
