@@ -2,13 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerUser } from '@/lib/supabase/server'
 import { createClient } from '@/lib/supabase/server'
 
-interface RouteParams {
-  params: {
-    id: string
-  }
-}
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
     // 检查用户登录状态
     const user = await getServerUser()
@@ -20,6 +19,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     const documentId = params.id
+      const params = await context.params
     const supabase = await createClient()
 
     // 获取文档信息
@@ -73,7 +73,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
     // 检查用户登录状态
     const user = await getServerUser()
@@ -85,6 +88,8 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     const documentId = params.id
+    const params = await context.params
+
     const supabase = await createClient()
 
     // 获取文档信息（用于删除文件）
@@ -140,7 +145,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
     // 检查用户登录状态
     const user = await getServerUser()
@@ -152,6 +160,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const documentId = params.id
+    const params = await context.params
+
     const body = await request.json()
     const supabase = await createClient()
 
